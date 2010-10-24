@@ -1,5 +1,6 @@
 package cn.edu.nju.software;
 
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -53,6 +54,6 @@ public class TabWidget extends TabActivity {
 
 		}
 		
+		
 	}
-
 }
