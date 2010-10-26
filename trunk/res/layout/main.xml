@@ -5,11 +5,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<EditText android:text="@+id/EditText01" android:id="@+id/EditText01" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+    
 
+<AutoCompleteTextView
+  android:id="@+id/AutoCompleteTextView01"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:textSize="18sp"
+  android:layout_x="0px"
+  android:layout_y="20px"
+  android:completionThreshold="1"
+  android:singleLine="true"
+  >
+  </AutoCompleteTextView>
 <ImageButton android:id="@+id/ImageButton01" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"
-	android:src="@android:drawable/ic_menu_search"></ImageButton>
+	android:src="@drawable/search"></ImageButton>
 <ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></ListView>
+
 </LinearLayout>

@@ -1,7 +1,11 @@
 package cn.edu.nju.software;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,6 +19,9 @@ public class PediaActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.pedia);
+        Intent intent = getIntent();
+        String search = intent.getStringExtra("search");
+        
         mWebView = (WebView) findViewById(R.id.webview);
 
         /*
@@ -24,8 +31,14 @@ public class PediaActivity extends Activity {
          * 例如该实例中的clickOnAndroid
          */
 
-        mWebView.loadUrl("http://pediault.appspot.com/search?type=1&wd=%E4%B8%AD%E5%9B%BD&page=2");
-        System.out.println("hel");
+        try {
+			search = "http://pediault.appspot.com/search?type=1&page=2&wd=" + URLEncoder.encode(search, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println(search);
+		mWebView.loadUrl(search);
 	}
 
 }
