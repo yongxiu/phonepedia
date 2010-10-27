@@ -1,6 +1,7 @@
 package cn.edu.nju.software;
 
 
+import cn.edu.nju.software.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;

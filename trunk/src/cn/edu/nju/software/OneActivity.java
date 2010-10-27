@@ -3,6 +3,7 @@ package cn.edu.nju.software;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.nju.software.R;
 import cn.edu.nju.software.adapter.SearchAdapter;
 
 import android.app.Activity;
@@ -14,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class OneActivity extends Activity {
 
