@@ -173,9 +173,9 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
 	/* 处理并传的字符串变成ArrayList */
 	private void changeResult(String text) {
 		int start = text.indexOf("[\"", 1);
-		int end = 0;
+		int end = start + 2;
 
-		while ((start = text.indexOf("[\"", start + 1)) != -1) {
+		while ((start = text.indexOf("[\"", end + 1)) != -1) {
 			end = text.indexOf("\"", start + 2);
 			keyWordValue.add(text.substring(start + 2, end));
 		}
