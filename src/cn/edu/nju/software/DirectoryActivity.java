@@ -28,8 +28,6 @@ public class DirectoryActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.directory);
-		Intent intent = getIntent();
-		String search = intent.getStringExtra("search");
 
 		linearLayout = (LinearLayout) findViewById(R.id.home);
 		linearLayout.setOnClickListener(new OnClickListener() {
@@ -84,12 +82,15 @@ public class DirectoryActivity extends Activity {
 		tempArray.add("第二条");
 		tempArray.add("第三条");
 
-		for (int index = 0; index < groupArray.size(); ++index) {
+		//for (int index = 0; index < groupArray.size(); ++index) {
 			childArray.add(tempArray);
-		}
+			childArray.add(new ArrayList<String>());
+		//}
 		
 		ExpandableListView expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);  
-		expandableListView.setAdapter(new ExpandableAdapter(DirectoryActivity.this));  
+		expandableListView.setAdapter(new ExpandableAdapter(DirectoryActivity.this));
+		//expandableListView.setChildIndicator(null);
+		
 	}
 
 	// ExpandableListView的Adapter
