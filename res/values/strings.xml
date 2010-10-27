@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">手机百科</string>
+    <string name="home">主页</string>
+	<string name="publish">发布</string>
+	<string name="change">更改</string>
+	<string name="more">更多</string>
 </resources>
