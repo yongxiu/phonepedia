@@ -3,8 +3,11 @@ package cn.edu.nju.software;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Date;
+
 import cn.edu.nju.software.R;
 import cn.edu.nju.software.adapter.SearchAdapter;
+import cn.edu.nju.software.db.DBAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -57,6 +60,10 @@ public class OneActivity extends Activity {
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			System.out.println(myAutoCompleteTextView.getText().toString());
+			DBAdapter dbHelper = new DBAdapter(OneActivity.this);
+			dbHelper.open();
+			dbHelper.insertPedia(myAutoCompleteTextView.getText().toString(), (new Date()).toString());
+
 			intent.putExtra("search", myAutoCompleteTextView.getText().toString());
 			intent.setClass(OneActivity.this, PediaActivity.class);
 			OneActivity.this.startActivity(intent);
