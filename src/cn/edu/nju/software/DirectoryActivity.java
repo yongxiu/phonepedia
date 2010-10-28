@@ -1,6 +1,13 @@
 package cn.edu.nju.software;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,40 +89,63 @@ public class DirectoryActivity extends Activity {
 		groupArray = new ArrayList<String>();
 		childArray = new ArrayList<List<String>>();
 
-		groupArray.add("第一行");
-		groupArray.add("第二行");
-
-		List<String> tempArray = new ArrayList<String>();
-		tempArray.add("第一条");
-		tempArray.add("第二条");
-		tempArray.add("第三条");
-
-		// for (int index = 0; index < groupArray.size(); ++index) {
-		childArray.add(tempArray);
-		childArray.add(new ArrayList<String>());
-		// }
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser;
+		
+		String uri = "";
 		try {
+			/* 输入的字要encode */
+			uri = "http://pediault.appspot.com/search?type=1&page=1&wd="
+					+ URLEncoder.encode("中国", "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		URL pediaUrl = null;
+		HttpURLConnection conn = null;
+		InputStream is = null;
+
+
+		/* 取得联机 */
+		try {
+			pediaUrl = new URL(uri);
+			/* 开启联机 */
+			conn = (HttpURLConnection) pediaUrl.openConnection();
+			int code = conn.getResponseCode();
+			/* 联机OK时 */
+			if (code == HttpURLConnection.HTTP_OK) {
+				/* 取得并传的InputStream */
+				is = conn.getInputStream();
+			}
+			
 			parser = factory.newSAXParser();
-			ParseXML parX = new ParseXML();
-			parser.parse("F:\\emps.xml", parX);
+			ParseXML parX = new ParseXML(groupArray, childArray);
+			parser.parse(is, parX);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+				if (conn != null)
+					conn.disconnect();
+			} catch (Exception e) {
+			}
 		}
 
 		ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 		expandableListView.setAdapter(new ExpandableAdapter(
 				DirectoryActivity.this));
-		// expandableListView.setChildIndicator(null);
+		expandableListView.setGroupIndicator(null);
 
 	}
 
@@ -142,7 +172,18 @@ public class DirectoryActivity extends Activity {
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			String string = childArray.get(groupPosition).get(childPosition);
-			return getGenericView(string);
+			
+			AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
+					ViewGroup.LayoutParams.FILL_PARENT, 64);
+			TextView text = new TextView(activity);
+			text.setLayoutParams(layoutParams);
+			// Center the text vertically
+			text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+			// Set the text starting position
+			text.setPadding(40, 0, 0, 0);
+			text.setText(string);
+			
+			return text;
 		}
 
 		// group method stub
@@ -174,7 +215,7 @@ public class DirectoryActivity extends Activity {
 			// Center the text vertically
 			text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 			// Set the text starting position
-			text.setPadding(36, 0, 0, 0);
+			text.setPadding(20, 0, 0, 0);
 			text.setText(string);
 			return text;
 		}
@@ -186,5 +227,45 @@ public class DirectoryActivity extends Activity {
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return true;
 		}
+	}
+	
+	/* 存取Pedia取得并传的结果字符串 */
+	private InputStream getDirectoryXML(String text) {
+		String uri = "";
+		try {
+			/* 输入的字要encode */
+			uri = "http://pediault.appspot.com/search?type=1&page=1&wd="
+					+ URLEncoder.encode(text, "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		URL pediaUrl = null;
+		HttpURLConnection conn = null;
+		InputStream is = null;
+
+
+		/* 取得联机 */
+		try {
+			pediaUrl = new URL(uri);
+			/* 开启联机 */
+			conn = (HttpURLConnection) pediaUrl.openConnection();
+			int code = conn.getResponseCode();
+			/* 联机OK时 */
+			if (code == HttpURLConnection.HTTP_OK) {
+				/* 取得并传的InputStream */
+				is = conn.getInputStream();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+			} catch (Exception e) {
+			}
+		}
+
+		return is;
 	}
 }
