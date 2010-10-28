@@ -1,7 +1,14 @@
 package cn.edu.nju.software;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +23,7 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.edu.nju.software.R;
+import cn.edu.nju.software.parse.ParseXML;
 
 public class DirectoryActivity extends Activity {
 
@@ -82,15 +90,33 @@ public class DirectoryActivity extends Activity {
 		tempArray.add("第二条");
 		tempArray.add("第三条");
 
-		//for (int index = 0; index < groupArray.size(); ++index) {
-			childArray.add(tempArray);
-			childArray.add(new ArrayList<String>());
-		//}
-		
-		ExpandableListView expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);  
-		expandableListView.setAdapter(new ExpandableAdapter(DirectoryActivity.this));
-		//expandableListView.setChildIndicator(null);
-		
+		// for (int index = 0; index < groupArray.size(); ++index) {
+		childArray.add(tempArray);
+		childArray.add(new ArrayList<String>());
+		// }
+
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser parser;
+		try {
+			parser = factory.newSAXParser();
+			ParseXML parX = new ParseXML();
+			parser.parse("F:\\emps.xml", parX);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+		expandableListView.setAdapter(new ExpandableAdapter(
+				DirectoryActivity.this));
+		// expandableListView.setChildIndicator(null);
+
 	}
 
 	// ExpandableListView的Adapter
