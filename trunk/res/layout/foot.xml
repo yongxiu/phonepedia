@@ -28,7 +28,7 @@
 		android:orientation="vertical" android:layout_width="80px" android:id="@+id/change"
 		android:layout_height="wrap_content" android:background="@drawable/tab_one_normal">
 		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="@string/change"
+			android:layout_height="wrap_content" android:text="@string/favorites"
 			android:gravity="center" android:paddingTop="29px"
 			 android:background="@drawable/change" />
 	</LinearLayout>

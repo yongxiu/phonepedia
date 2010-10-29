@@ -24,7 +24,7 @@ public class TabWidget extends TabActivity {
 		// 第一个TAB
 		intent = new Intent(this, OneActivity.class);// 新建一个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab1")// 新建一个 Tab
-				.setIndicator("Tab1",
+				.setIndicator("百度百科",
 						res.getDrawable(R.drawable.gimp))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
@@ -32,7 +32,7 @@ public class TabWidget extends TabActivity {
 		// 第二个TAB
 		intent = new Intent(this, TwoActivity.class);// 第二个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab2")// 新建一个 Tab
-				.setIndicator("Tab2",
+				.setIndicator("维基百科",
 						res.getDrawable(R.drawable.mumule))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
@@ -40,7 +40,7 @@ public class TabWidget extends TabActivity {
 		// 第三个TAB
 		intent = new Intent(this, ThreeActivity.class);// 新建一个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab3")// 新建一个 Tab
-				.setIndicator("Tab3",
+				.setIndicator("收藏夹",
 						res.getDrawable(R.drawable.note))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost

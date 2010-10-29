@@ -44,13 +44,13 @@ public class OneActivity extends Activity {
 	private List<String> getData(){
 		List<String> data = new ArrayList<String>();
 
-    	data.add("测试数据1");
+    	data.add("苹什么");
 
-    	data.add("测试数据2");
+    	data.add("血荒");
 
-    	data.add("测试数据3");
+    	data.add("透明国际");
 
-    	data.add("测试数据4");
+    	data.add("马化腾");
 
     	return data;
 	}
