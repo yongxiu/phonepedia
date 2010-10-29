@@ -62,7 +62,7 @@ public class OneActivity extends Activity {
 			System.out.println(myAutoCompleteTextView.getText().toString());
 			DBAdapter dbHelper = new DBAdapter(OneActivity.this);
 			dbHelper.open();
-			dbHelper.insertPedia(myAutoCompleteTextView.getText().toString(), (new Date()).toString());
+			dbHelper.insertPedia(myAutoCompleteTextView.getText().toString(), new Date());
 
 			intent.putExtra("search", myAutoCompleteTextView.getText().toString());
 			intent.setClass(OneActivity.this, PediaActivity.class);

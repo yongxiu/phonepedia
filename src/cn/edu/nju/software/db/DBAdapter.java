@@ -1,6 +1,8 @@
 package cn.edu.nju.software.db;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import cn.edu.nju.software.utils.Time;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,7 +32,7 @@ public class DBAdapter {
 
 	"create table pedia (_id integer primary key autoincrement, "
 
-	+ "name text not null, date text not null);";
+	+ "name text not null, date datetime not null);";
 
 	private final Context context;
 
@@ -98,54 +100,27 @@ public class DBAdapter {
 
 	// ---向数据库插入一个标题---
 
-	public long insertPedia(String name, String date) {
+	public long insertPedia(String name, Date date) {
 
 		Cursor mCursor = null;
 		try {
 			mCursor = db.query(true, DATABASE_TABLE, new String[] {
 					KEY_ROWID, KEY_NAME, KEY_DATE },
-					KEY_NAME + "=" + (new String(name.getBytes("gb2312"), "gb2312")),
+					KEY_NAME + "= '" + name + "'",
 					null, null, null, null, null);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		try {
-			mCursor = db.query(true, DATABASE_TABLE, new String[] {
-					KEY_ROWID, KEY_NAME, KEY_DATE },
-					KEY_NAME + "=" + (new String(name.getBytes("gb2312"), "utf8")),
-					null, null, null, null, null);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			mCursor = db.query(true, DATABASE_TABLE, new String[] {
-					KEY_ROWID, KEY_NAME, KEY_DATE },
-					KEY_NAME + "=" + (new String(name.getBytes("iso-8859-1"), "gbk")),
-					null, null, null, null, null);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		if (mCursor != null) {
 			return 0;
 		}
+		
+		if(mCursor.getCount() != 0)
+			return 0;
+			
 		ContentValues initialValues = new ContentValues();
 
 		initialValues.put(KEY_NAME, name);
 
-		initialValues.put(KEY_DATE, date);
+		initialValues.put(KEY_DATE, Time.getDateStr(date));
 
 		return db.insert(DATABASE_TABLE, null, initialValues);
 
@@ -162,7 +137,6 @@ public class DBAdapter {
 	// ---检索所有标题---
 
 	public Cursor getAllPedias() {
-
 		return db.query(DATABASE_TABLE, new String[] {
 
 		KEY_ROWID,
@@ -177,9 +151,7 @@ public class DBAdapter {
 
 		null,
 
-		null,
-
-		null);
+		null, "date desc");
 
 	}
 
@@ -223,13 +195,13 @@ public class DBAdapter {
 
 	// ---更新一个标题---
 
-	public boolean updatePedia(long rowId, String name, String date) {
+	public boolean updatePedia(long rowId, String name, Date date) {
 
 		ContentValues args = new ContentValues();
 
 		args.put(KEY_NAME, name);
 
-		args.put(KEY_DATE, date);
+		args.put(KEY_DATE, Time.getDateStr(date));
 
 		return db.update(DATABASE_TABLE, args,
 
