@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+	android:orientation="vertical" 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+    	>
+    	
+    	<ImageButton android:id="@+id/ImageButton01" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"  
+			android:src="@drawable/search">
+		</ImageButton>
+		
+		<AutoCompleteTextView
+		  android:id="@+id/AutoCompleteTextView01"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:textSize="18sp"
+		  android:layout_x="0px"
+		  android:layout_y="20px"
+		  android:layout_toLeftOf="@id/ImageButton01"  
+		  android:completionThreshold="1"
+		  android:singleLine="true">
+		</AutoCompleteTextView>
+    </LinearLayout>
 
-<AutoCompleteTextView
-  android:id="@+id/AutoCompleteTextView01"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:textSize="18sp"
-  android:layout_x="0px"
-  android:layout_y="20px"
-  android:completionThreshold="1"
-  android:singleLine="true"
-  >
-  </AutoCompleteTextView>
-<ImageButton android:id="@+id/ImageButton01" 
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content"
-	android:src="@drawable/search"></ImageButton>
+
 <ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>

@@ -21,6 +21,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -37,6 +40,7 @@ public class DirectoryActivity extends Activity {
 	private LinearLayout linearLayout, publish, change, more;
 	private List<String> groupArray;
 	private List<List<String>> childArray;
+	private String searchWd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class DirectoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.directory);
 
+		Intent intent = getIntent();
+		searchWd = intent.getStringExtra("search");
 		linearLayout = (LinearLayout) findViewById(R.id.home);
 		linearLayout.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -63,6 +69,11 @@ public class DirectoryActivity extends Activity {
 				linearLayout.setBackgroundResource(R.drawable.tab_one_normal);
 				change.setBackgroundResource(R.drawable.tab_one_normal);
 				more.setBackgroundResource(R.drawable.tab_one_normal);
+				
+				Intent intent = new Intent();
+				intent.putExtra("search", searchWd);
+				intent.setClass(DirectoryActivity.this, PediaActivity.class);
+				DirectoryActivity.this.startActivity(intent);
 			}
 		});
 
@@ -73,6 +84,11 @@ public class DirectoryActivity extends Activity {
 				linearLayout.setBackgroundResource(R.drawable.tab_one_normal);
 				publish.setBackgroundResource(R.drawable.tab_one_normal);
 				more.setBackgroundResource(R.drawable.tab_one_normal);
+				
+				Intent intent = new Intent();
+				intent.putExtra("search", searchWd);
+				intent.setClass(DirectoryActivity.this, FavoritesActivity.class);
+				DirectoryActivity.this.startActivity(intent);
 			}
 		});
 
@@ -97,7 +113,7 @@ public class DirectoryActivity extends Activity {
 		try {
 			/* 输入的字要encode */
 			uri = "http://pediault.appspot.com/search?type=1&page=1&wd="
-					+ URLEncoder.encode("中国", "utf-8");
+					+ URLEncoder.encode(searchWd, "utf-8");
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -229,43 +245,27 @@ public class DirectoryActivity extends Activity {
 		}
 	}
 	
-	/* 存取Pedia取得并传的结果字符串 */
-	private InputStream getDirectoryXML(String text) {
-		String uri = "";
-		try {
-			/* 输入的字要encode */
-			uri = "http://pediault.appspot.com/search?type=1&page=1&wd="
-					+ URLEncoder.encode(text, "utf-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		URL pediaUrl = null;
-		HttpURLConnection conn = null;
-		InputStream is = null;
-
-
-		/* 取得联机 */
-		try {
-			pediaUrl = new URL(uri);
-			/* 开启联机 */
-			conn = (HttpURLConnection) pediaUrl.openConnection();
-			int code = conn.getResponseCode();
-			/* 联机OK时 */
-			if (code == HttpURLConnection.HTTP_OK) {
-				/* 取得并传的InputStream */
-				is = conn.getInputStream();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-			} catch (Exception e) {
-			}
-		}
-
-		return is;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();  
+        inflater.inflate(R.menu.menu, menu);  
+        return true;  
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection  
+        switch (item.getItemId())  
+        {  
+        case R.id.save:  
+            System.out.println("save");
+            return true;  
+        case R.id.quit:  
+        	finish();
+            return true;  
+        default:  
+            return super.onOptionsItemSelected(item);  
+        } 
+	}
+	
 }
