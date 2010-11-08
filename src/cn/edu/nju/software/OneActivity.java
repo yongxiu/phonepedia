@@ -11,19 +11,25 @@ import cn.edu.nju.software.db.DBAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class OneActivity extends Activity {
 
 	private ListView listView;
 	private ImageButton searchButton;
+	private ImageButton phoneButton;
 	private AutoCompleteTextView myAutoCompleteTextView;
+	public static final int VOICE_RECOGNITION_REQUEST_CODE = 0x1008;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +39,8 @@ public class OneActivity extends Activity {
 				android.R.layout.simple_expandable_list_item_1, getData()));
 		searchButton = (ImageButton) findViewById(R.id.ImageButton01);
 		searchButton.setOnClickListener(new SearchListener());
+		phoneButton = (ImageButton) findViewById(R.id.ImageButton02);
+		phoneButton.setOnClickListener(new PhoneListener());
 		myAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.AutoCompleteTextView01);
 		
 		/* new一个自己实现做的BaseAdapter */
@@ -69,5 +77,40 @@ public class OneActivity extends Activity {
 			OneActivity.this.startActivity(intent);
 		}
 		
+	};
+
+	class PhoneListener implements OnClickListener {
+
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			PackageManager pm = getPackageManager();
+			/* 查询有无安装Google Voice Search Engine */
+			List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+					RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+			/* 若有安装Google Voice Search Engine */
+			if (activities.size() != 0) {
+				try {
+					/* 语音识别Intent */
+					Intent intent = new Intent(
+							RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+					intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+							RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+					/* 识别画面出现的说明 */
+					intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "语音识别");
+					/* 启动语音识别Intent */
+					startActivityForResult(intent,
+							VOICE_RECOGNITION_REQUEST_CODE);
+
+				} catch (Exception e) {
+					myAutoCompleteTextView.setText(e.getMessage());
+				}
+
+			} else {
+				Toast.makeText(OneActivity.this, "RecognizerIntent NOT Found!",
+						Toast.LENGTH_LONG).show();
+			}
+		}
+
 	};
 }

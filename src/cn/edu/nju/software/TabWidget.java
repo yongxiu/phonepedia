@@ -6,6 +6,9 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -25,7 +28,7 @@ public class TabWidget extends TabActivity {
 		intent = new Intent(this, OneActivity.class);// 新建一个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab1")// 新建一个 Tab
 				.setIndicator("百度百科",
-						res.getDrawable(R.drawable.gimp))// 设置名称以及图标
+						res.getDrawable(R.drawable.tran_tab_selected))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
 
@@ -33,7 +36,7 @@ public class TabWidget extends TabActivity {
 		intent = new Intent(this, TwoActivity.class);// 第二个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab2")// 新建一个 Tab
 				.setIndicator("维基百科",
-						res.getDrawable(R.drawable.mumule))// 设置名称以及图标
+						res.getDrawable(R.drawable.wikipedia_globe_icon))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
 		
@@ -41,20 +44,34 @@ public class TabWidget extends TabActivity {
 		intent = new Intent(this, ThreeActivity.class);// 新建一个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab3")// 新建一个 Tab
 				.setIndicator("收藏夹",
-						res.getDrawable(R.drawable.note))// 设置名称以及图标
+						res.getDrawable(R.drawable.favorites))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
 		tabHost.setBackgroundResource(R.drawable.back_blue);
 		tabHost.setCurrentTab(0);
-
-		final android.widget.TabWidget tabWidget = tabHost.getTabWidget();
-
-		for (int i = 0; i < tabWidget.getChildCount(); i++) {
-
-			tabWidget.getChildAt(i).getLayoutParams().height = 50;
-
-		}
 		
-		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();  
+        inflater.inflate(R.menu.menu, menu);  
+        return true;  
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection  
+        switch (item.getItemId())  
+        {  
+        case R.id.save:  
+            System.out.println("save");
+            return true;  
+        case R.id.quit:  
+        	System.exit(0);
+            return true;  
+        default:  
+            return super.onOptionsItemSelected(item);  
+        } 
 	}
 }

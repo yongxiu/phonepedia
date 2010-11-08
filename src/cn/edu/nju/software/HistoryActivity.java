@@ -10,7 +10,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-public class FavoritesActivity extends ListActivity {
+public class HistoryActivity extends ListActivity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +25,7 @@ public class FavoritesActivity extends ListActivity {
 	
 	private List<String> getData(){
 		List<String> data = new ArrayList<String>();
-		DBAdapter dbHelper = new DBAdapter(FavoritesActivity.this);
+		DBAdapter dbHelper = new DBAdapter(HistoryActivity.this);
 		dbHelper.open();
 		Cursor cursor = dbHelper.getAllPedias();
 		while(cursor.moveToNext()) {
