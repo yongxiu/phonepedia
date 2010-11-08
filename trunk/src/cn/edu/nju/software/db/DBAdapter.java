@@ -17,6 +17,8 @@ public class DBAdapter {
 	public static final String KEY_ROWID = "_id";
 
 	public static final String KEY_NAME = "name";
+	
+	public static final String KEY_FAVORITE = "favorite";
 
 	public static final String KEY_DATE = "date";
 
@@ -32,7 +34,7 @@ public class DBAdapter {
 
 	"create table pedia (_id integer primary key autoincrement, "
 
-	+ "name text not null, date datetime not null);";
+	+ "name text not null, favorite boolean default false, date datetime not null);";
 
 	private final Context context;
 
@@ -154,6 +156,27 @@ public class DBAdapter {
 		null, "date desc");
 
 	}
+	
+	// ---检索所有标题---
+
+	public Cursor getAllFavorites() {
+		return db.query(DATABASE_TABLE, new String[] {
+
+		KEY_ROWID,
+
+		KEY_NAME,
+
+		KEY_DATE },
+
+		null,
+
+		new String[] {KEY_FAVORITE + "=true"},
+
+		null,
+
+		null, "date desc");
+
+	}
 
 	// ---检索一个指定的标题---
 
@@ -195,11 +218,13 @@ public class DBAdapter {
 
 	// ---更新一个标题---
 
-	public boolean updatePedia(long rowId, String name, Date date) {
+	public boolean updatePedia(long rowId, String name, boolean favorite, Date date) {
 
 		ContentValues args = new ContentValues();
 
 		args.put(KEY_NAME, name);
+		
+		args.put(KEY_FAVORITE, favorite);
 
 		args.put(KEY_DATE, Time.getDateStr(date));
 

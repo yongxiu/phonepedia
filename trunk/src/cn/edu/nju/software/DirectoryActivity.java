@@ -1,9 +1,7 @@
 package cn.edu.nju.software;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,26 +16,19 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import cn.edu.nju.software.R;
 import cn.edu.nju.software.parse.ParseXML;
 
-public class DirectoryActivity extends Activity {
+public class DirectoryActivity extends ExpandableListActivity {
 
-	private LinearLayout linearLayout, publish, change, more;
 	private List<String> groupArray;
 	private List<List<String>> childArray;
 	private String searchWd;
@@ -46,62 +37,16 @@ public class DirectoryActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.directory);
+		//setContentView(R.layout.directory);
 
 		Intent intent = getIntent();
 		searchWd = intent.getStringExtra("search");
-		linearLayout = (LinearLayout) findViewById(R.id.home);
-		linearLayout.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				linearLayout
-						.setBackgroundResource(R.drawable.tab_two_highlight);
-				publish.setBackgroundResource(R.drawable.tab_one_normal);
-				change.setBackgroundResource(R.drawable.tab_one_normal);
-				more.setBackgroundResource(R.drawable.tab_one_normal);
-			}
-		});
-		linearLayout.setBackgroundResource(R.drawable.tab_two_highlight);
+		this.getExpandableListView().setGroupIndicator(null);
+	}
 
-		publish = (LinearLayout) findViewById(R.id.publish);
-		publish.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				publish.setBackgroundResource(R.drawable.tab_two_highlight);
-				linearLayout.setBackgroundResource(R.drawable.tab_one_normal);
-				change.setBackgroundResource(R.drawable.tab_one_normal);
-				more.setBackgroundResource(R.drawable.tab_one_normal);
-				
-				Intent intent = new Intent();
-				intent.putExtra("search", searchWd);
-				intent.setClass(DirectoryActivity.this, PediaActivity.class);
-				DirectoryActivity.this.startActivity(intent);
-			}
-		});
-
-		change = (LinearLayout) findViewById(R.id.change);
-		change.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				change.setBackgroundResource(R.drawable.tab_two_highlight);
-				linearLayout.setBackgroundResource(R.drawable.tab_one_normal);
-				publish.setBackgroundResource(R.drawable.tab_one_normal);
-				more.setBackgroundResource(R.drawable.tab_one_normal);
-				
-				Intent intent = new Intent();
-				intent.putExtra("search", searchWd);
-				intent.setClass(DirectoryActivity.this, FavoritesActivity.class);
-				DirectoryActivity.this.startActivity(intent);
-			}
-		});
-
-		more = (LinearLayout) findViewById(R.id.more);
-		more.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				more.setBackgroundResource(R.drawable.tab_two_highlight);
-				linearLayout.setBackgroundResource(R.drawable.tab_one_normal);
-				publish.setBackgroundResource(R.drawable.tab_one_normal);
-				change.setBackgroundResource(R.drawable.tab_one_normal);
-			}
-		});
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
 		groupArray = new ArrayList<String>();
 		childArray = new ArrayList<List<String>>();
 
@@ -158,11 +103,10 @@ public class DirectoryActivity extends Activity {
 			}
 		}
 
-		ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-		expandableListView.setAdapter(new ExpandableAdapter(
-				DirectoryActivity.this));
-		expandableListView.setGroupIndicator(null);
-
+		
+		this.setListAdapter(new ExpandableAdapter(this));
+		
+		super.onResume();
 	}
 
 	// ExpandableListView的Adapter
@@ -243,29 +187,6 @@ public class DirectoryActivity extends Activity {
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return true;
 		}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();  
-        inflater.inflate(R.menu.menu, menu);  
-        return true;  
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection  
-        switch (item.getItemId())  
-        {  
-        case R.id.save:  
-            System.out.println("save");
-            return true;  
-        case R.id.quit:  
-        	finish();
-            return true;  
-        default:  
-            return super.onOptionsItemSelected(item);  
-        } 
 	}
 	
 }
