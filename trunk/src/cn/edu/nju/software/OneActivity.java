@@ -47,6 +47,8 @@ public class OneActivity extends Activity {
 	    SearchAdapter adapter = new SearchAdapter(this);
 
 	    myAutoCompleteTextView.setAdapter(adapter);
+	    
+	    //myAutoCompleteTextView.add
 	}
 
 	private List<String> getData(){
@@ -73,7 +75,7 @@ public class OneActivity extends Activity {
 			dbHelper.insertPedia(myAutoCompleteTextView.getText().toString(), new Date());
 
 			intent.putExtra("search", myAutoCompleteTextView.getText().toString());
-			intent.setClass(OneActivity.this, PediaActivity.class);
+			intent.setClass(OneActivity.this, BaseActivity.class);
 			OneActivity.this.startActivity(intent);
 		}
 		
@@ -107,7 +109,7 @@ public class OneActivity extends Activity {
 				}
 
 			} else {
-				Toast.makeText(OneActivity.this, "RecognizerIntent NOT Found!",
+				Toast.makeText(OneActivity.this, "未找到语音识别设备！",
 						Toast.LENGTH_LONG).show();
 			}
 		}

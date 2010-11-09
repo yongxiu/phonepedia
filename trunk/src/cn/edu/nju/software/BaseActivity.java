@@ -1,5 +1,9 @@
 package cn.edu.nju.software;
 
+import java.util.Date;
+
+import cn.edu.nju.software.db.DBAdapter;
+import cn.edu.nju.software.utils.Service;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,23 +12,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
 
 public class BaseActivity extends TabActivity {
 	
+	private String searchWd;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base);// 这里使用了上面创建的xml文件（Tab页面的布局）
+		
+		Intent intent = getIntent();
+		searchWd = intent.getStringExtra("search");
+		
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
 		TabSpec spec;
-		Intent intent; // Reusable Intent for each tab
 
 		// 第一个TAB
 		intent = new Intent(this, DirectoryActivity.class);// 新建一个Intent用作Tab1显示的内容
-		intent.putExtra("search", "中国");
+		intent.putExtra("search", searchWd);
 		spec = tabHost.newTabSpec("tab1")// 新建一个 Tab
 				.setIndicator("目录",
 						res.getDrawable(R.drawable.dict_tab_selected))// 设置名称以及图标
@@ -33,7 +42,7 @@ public class BaseActivity extends TabActivity {
 
 		// 第二个TAB
 		intent = new Intent(this, PediaActivity.class);// 第二个Intent用作Tab1显示的内容
-		intent.putExtra("search", "中国");
+		intent.putExtra("search", searchWd);
 		spec = tabHost.newTabSpec("tab2")// 新建一个 Tab
 				.setIndicator("内容",
 						res.getDrawable(R.drawable.wiki_tab_selected))// 设置名称以及图标
@@ -42,10 +51,9 @@ public class BaseActivity extends TabActivity {
 		
 		// 第三个TAB
 		intent = new Intent(this, FavoritesActivity.class);// 新建一个Intent用作Tab1显示的内容
-		intent.putExtra("search", "中国");
 		spec = tabHost.newTabSpec("tab3")// 新建一个 Tab
-				.setIndicator("历史",
-						res.getDrawable(R.drawable.notes_tab_selected))// 设置名称以及图标
+				.setIndicator("收藏夹",
+						res.getDrawable(R.drawable.favorites))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
 		tabHost.setCurrentTab(0);
@@ -66,11 +74,21 @@ public class BaseActivity extends TabActivity {
         switch (item.getItemId())  
         {  
         case R.id.save:  
-            System.out.println("save");
+        	DBAdapter dbHelper = new DBAdapter(BaseActivity.this);
+			dbHelper.open();
+			if(dbHelper.insertFavorite(searchWd)) {
+				Toast.makeText(BaseActivity.this, "添加成功！",
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(BaseActivity.this, "发生未知错误！",
+						Toast.LENGTH_LONG).show();
+			}
             return true;  
         case R.id.quit:  
         	System.exit(0);
-            return true;  
+            return true;
+        case R.id.send:
+        	startActivity(Service.SendMsg(searchWd));
         default:  
             return super.onOptionsItemSelected(item);  
         } 
