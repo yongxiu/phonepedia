@@ -4,13 +4,16 @@ import java.util.Date;
 
 import cn.edu.nju.software.db.DBAdapter;
 import cn.edu.nju.software.utils.Service;
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
@@ -89,6 +92,16 @@ public class BaseActivity extends TabActivity {
             return true;
         case R.id.send:
         	startActivity(Service.SendMsg(searchWd));
+        case R.id.about:
+        	LayoutInflater factory = LayoutInflater.from(BaseActivity.this);
+        	final View textEntryView = factory.inflate(R.layout.about_dlg, null);
+        	AlertDialog dlg = new AlertDialog.Builder(BaseActivity.this)
+        	.setTitle("关于-手机百科")
+            .setView(textEntryView)
+            .setPositiveButton("确定", null)
+            .create();
+        	dlg.show();
+        	return true;
         default:  
             return super.onOptionsItemSelected(item);  
         } 

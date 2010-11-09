@@ -63,8 +63,8 @@ public class OneActivity extends Activity {
 	    myAutoCompleteTextView.setAdapter(adapter);
 	    
 	    //myAutoCompleteTextView.add
-	    Thread thread = new Thread(new PopWdDownload());
-		thread.start();
+	    //Thread thread = new Thread(new PopWdDownload());
+		//thread.start();
 	}
 
 	
