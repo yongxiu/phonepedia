@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 public class PediaActivity extends Activity {
@@ -32,8 +33,11 @@ public class PediaActivity extends Activity {
 		searchWd = intent.getStringExtra("search");
         
         mWebView = (WebView) findViewById(R.id.webview);
-		
-		
+		mWebView.setWebViewClient(new WebViewClient() {
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				return false;
+			}
+		});
 	}
 	
 	@Override

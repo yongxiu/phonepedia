@@ -160,6 +160,7 @@ public class DBAdapter {
 	// ---检索所有标题---
 
 	public Cursor getAllFavorites() {
+
 		return db.query(DATABASE_TABLE, new String[] {
 
 		KEY_ROWID,
@@ -168,9 +169,9 @@ public class DBAdapter {
 
 		KEY_DATE },
 
-		null,
+		KEY_FAVORITE + "=1",
 
-		new String[] {KEY_FAVORITE + "=true"},
+		null,
 
 		null,
 
@@ -231,6 +232,20 @@ public class DBAdapter {
 		return db.update(DATABASE_TABLE, args,
 
 		KEY_ROWID + "=" + rowId, null) > 0;
+
+	}
+	
+	// ---更新一个标题---
+
+	public boolean insertFavorite(String name) {
+
+		ContentValues args = new ContentValues();
+		
+		args.put(KEY_FAVORITE, true);
+
+		return db.update(DATABASE_TABLE, args,
+
+				KEY_NAME + "='" + name + "'", null) > 0;
 
 	}
 

@@ -27,7 +27,7 @@ public class FavoritesActivity extends ListActivity {
 		List<String> data = new ArrayList<String>();
 		DBAdapter dbHelper = new DBAdapter(FavoritesActivity.this);
 		dbHelper.open();
-		Cursor cursor = dbHelper.getAllPedias();
+		Cursor cursor = dbHelper.getAllFavorites();
 		while(cursor.moveToNext()) {
 			String name = cursor.getString(cursor.getColumnIndex("name"));
 			data.add(name);
