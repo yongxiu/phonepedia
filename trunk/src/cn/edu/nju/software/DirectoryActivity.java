@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 import cn.edu.nju.software.parse.ParseXML;
+import cn.edu.nju.software.utils.Preferences;
 
 public class DirectoryActivity extends ExpandableListActivity {
 
@@ -54,15 +55,7 @@ public class DirectoryActivity extends ExpandableListActivity {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser;
 		
-		String uri = "";
-		try {
-			/* 输入的字要encode */
-			uri = "http://pediault.appspot.com/search?type=1&page=1&wd="
-					+ URLEncoder.encode(searchWd, "utf-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		String uri = Preferences.getUrl(searchWd, Preferences.BAIDU_PEDIA, 1);
 
 		URL pediaUrl = null;
 		HttpURLConnection conn = null;
