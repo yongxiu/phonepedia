@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Main!</string>
+    <string name="hello">
+    	手机百科由CYX制作开发，基于Google Android手机平台，
+    	部分代码和图片源自网络，更多信息请访问：http://cuiyongxiu.com
+    </string>
     <string name="app_name">手机百科</string>
     <string name="home">目录</string>
 	<string name="publish">概况</string>

@@ -2,13 +2,17 @@ package cn.edu.nju.software;
 
 
 import cn.edu.nju.software.R;
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -69,7 +73,17 @@ public class TabWidget extends TabActivity {
             return true;  
         case R.id.quit:  
         	System.exit(0);
-            return true;  
+            return true;
+        case R.id.about:
+        	LayoutInflater factory = LayoutInflater.from(TabWidget.this);
+        	final View textEntryView = factory.inflate(R.layout.about_dlg, null);
+        	AlertDialog dlg = new AlertDialog.Builder(TabWidget.this)
+        	.setTitle("关于-手机百科")
+            .setView(textEntryView)
+            .setPositiveButton("确定", null)
+            .create();
+        	dlg.show();
+        	return true;
         default:  
             return super.onOptionsItemSelected(item);  
         } 

@@ -20,11 +20,14 @@ import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import cn.edu.nju.software.parse.ParseXML;
 import cn.edu.nju.software.utils.Preferences;
 
@@ -43,10 +46,7 @@ public class DirectoryActivity extends ExpandableListActivity {
 		Intent intent = getIntent();
 		searchWd = intent.getStringExtra("search");
 		this.getExpandableListView().setGroupIndicator(null);
-	}
-
-	@Override
-	protected void onResume() {
+		
 		// TODO Auto-generated method stub
 		groupArray = new ArrayList<String>();
 		childArray = new ArrayList<List<String>>();
@@ -99,9 +99,18 @@ public class DirectoryActivity extends ExpandableListActivity {
 		
 		this.setListAdapter(new ExpandableAdapter(this));
 		
-		super.onResume();
+		registerForContextMenu(getExpandableListView());
 	}
 
+	public boolean onContextItemSelected(MenuItem item) {
+		boolean flag=false;
+		// TODO Auto-generated method stub
+		ExpandableListContextMenuInfo menuInfo=(ExpandableListContextMenuInfo)item.getMenuInfo();
+		String title=((TextView)menuInfo.targetView).getText().toString();
+		
+		Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+		return true;
+	}
 	// ExpandableListView的Adapter
 	public class ExpandableAdapter extends BaseExpandableListAdapter {
 		Activity activity;

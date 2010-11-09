@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +32,13 @@ public class HistoryActivity extends ListActivity {
 				android.R.layout.simple_expandable_list_item_1, getData()));*/
 	}
 	
+	@Override
+	protected void onResume() {
+		data = getData();
+		((ArrayAdapter) this.getListAdapter()).notifyDataSetChanged();
+		super.onResume();
+	}
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent();

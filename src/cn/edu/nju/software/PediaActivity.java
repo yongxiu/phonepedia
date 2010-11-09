@@ -29,16 +29,10 @@ public class PediaActivity extends Activity {
 				return false;
 			}
 		});
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
+		
 		String url = Preferences.getUrl(searchWd, Preferences.BAIDU_PEDIA, 2);
 
 		mWebView.loadUrl(url);
-		
-		super.onResume();
 	}
 
 }
