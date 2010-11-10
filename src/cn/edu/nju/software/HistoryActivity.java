@@ -20,13 +20,16 @@ public class HistoryActivity extends ListActivity {
 	
 	private List<String> data;
 	
+	private ArrayAdapter<String> myAdapter;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.favorites);
+		getData();
+		myAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_expandable_list_item_1, data);
 		
-		data = getData();
-		this.setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_expandable_list_item_1, data));
+		this.setListAdapter(myAdapter);
 		/*listView = (ListView) findViewById(R.id.listView);
 		listView.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_expandable_list_item_1, getData()));*/
@@ -34,8 +37,9 @@ public class HistoryActivity extends ListActivity {
 	
 	@Override
 	protected void onResume() {
-		data = getData();
-		((BaseAdapter) this.getListAdapter()).notifyDataSetChanged();
+		getData();
+		System.out.println("dsfji");
+		myAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
 
@@ -49,8 +53,8 @@ public class HistoryActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 	}
 
-	private List<String> getData(){
-		List<String> data = new ArrayList<String>();
+	private void getData(){
+		data = new ArrayList<String>();
 		DBAdapter dbHelper = new DBAdapter(HistoryActivity.this);
 		dbHelper.open();
 		Cursor cursor = dbHelper.getAllPedias();
@@ -59,7 +63,6 @@ public class HistoryActivity extends ListActivity {
 			data.add(name);
 		}
 
-    	return data;
 	}
 	
 }
