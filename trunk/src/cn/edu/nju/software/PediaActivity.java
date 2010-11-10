@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 public class PediaActivity extends Activity {
 
@@ -24,15 +23,16 @@ public class PediaActivity extends Activity {
 		searchWd = intent.getStringExtra("search");
         
         mWebView = (WebView) findViewById(R.id.webview);
-		mWebView.setWebViewClient(new WebViewClient() {
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				return false;
-			}
-		});
 		
-		String url = Preferences.getUrl(searchWd, Preferences.BAIDU_PEDIA, 2);
-
-		mWebView.loadUrl(url);
+		Thread thread = new Thread(new ContentDownload());
+		thread.start();
 	}
+	
+	class ContentDownload implements Runnable{
 
+		public void run() {
+			String url = Preferences.getUrl(searchWd, Preferences.BAIDU_PEDIA, 2);
+			mWebView.loadUrl(url);
+		}
+	}
 }
