@@ -14,6 +14,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
+import cn.edu.nju.software.OneActivity.HotWdListener;
 import cn.edu.nju.software.adapter.SearchAdapter;
 import cn.edu.nju.software.db.DBAdapter;
 import cn.edu.nju.software.parse.PopWdParseXML;
@@ -36,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class TwoActivity extends Activity {
+public class ThreeActivity extends Activity {
 
 	private ListView listView;
 	private ImageButton searchButton;
@@ -64,7 +65,8 @@ public class TwoActivity extends Activity {
 	    myAutoCompleteTextView.setAdapter(adapter);
 	    
 	    //myAutoCompleteTextView.add
-	    listView.setOnItemClickListener(new HotWdListener()); 
+	    
+	    listView.setOnItemClickListener(new HotWdListener());
 	    
 	    Thread thread = new Thread(new PopWdDownload());
 		thread.start();
@@ -73,15 +75,15 @@ public class TwoActivity extends Activity {
 	class HotWdListener implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			DBAdapter dbHelper = new DBAdapter(TwoActivity.this);
+			DBAdapter dbHelper = new DBAdapter(ThreeActivity.this);
 			dbHelper.open();
 			dbHelper.insertPedia(((TextView) arg1).getText().toString(), new Date());
 			
 			Intent intent = new Intent();
 			intent.putExtra("search", ((TextView) arg1).getText());
-			intent.putExtra("type", Preferences.HUDONG_PEDIA);
-			intent.setClass(TwoActivity.this, BaseActivity.class);
-			TwoActivity.this.startActivity(intent);
+			intent.putExtra("type", Preferences.BAIDU_PEDIA);
+			intent.setClass(ThreeActivity.this, BaseActivity.class);
+			ThreeActivity.this.startActivity(intent);
 		} 
 	}
 	
@@ -90,21 +92,21 @@ public class TwoActivity extends Activity {
 		public void onClick(View v) {
 			
 			if(myAutoCompleteTextView.getText().toString().equals("")) {
-				Toast.makeText(TwoActivity.this, "请输入要搜索的词汇！",
+				Toast.makeText(ThreeActivity.this, "请输入要搜索的词汇！",
 						Toast.LENGTH_LONG).show();
 				return;
 			}
 			
 			Intent intent = new Intent();
 			System.out.println(myAutoCompleteTextView.getText().toString());
-			DBAdapter dbHelper = new DBAdapter(TwoActivity.this);
+			DBAdapter dbHelper = new DBAdapter(ThreeActivity.this);
 			dbHelper.open();
 			dbHelper.insertPedia(myAutoCompleteTextView.getText().toString(), new Date());
 
 			intent.putExtra("search", myAutoCompleteTextView.getText().toString());
 			intent.putExtra("type", Preferences.WIKI_PEDIA);
-			intent.setClass(TwoActivity.this, BaseActivity.class);
-			TwoActivity.this.startActivity(intent);
+			intent.setClass(ThreeActivity.this, BaseActivity.class);
+			ThreeActivity.this.startActivity(intent);
 		}
 		
 	};
@@ -137,7 +139,7 @@ public class TwoActivity extends Activity {
 				}
 
 			} else {
-				Toast.makeText(TwoActivity.this, "未找到语音识别设备！",
+				Toast.makeText(ThreeActivity.this, "未找到语音识别设备！",
 						Toast.LENGTH_LONG).show();
 			}
 		}
@@ -152,7 +154,7 @@ public class TwoActivity extends Activity {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser;
 			
-			String uri = Preferences.getPopUrl(Preferences.WIKI_PEDIA);
+			String uri = Preferences.getPopUrl(Preferences.BAIDU_PEDIA);
 
 			URL pediaUrl = null;
 			HttpURLConnection conn = null;
@@ -194,7 +196,7 @@ public class TwoActivity extends Activity {
 			}
 			
 			//OneActivity.
-			TwoActivity.this.runOnUiThread(new Runnable() {
+			ThreeActivity.this.runOnUiThread(new Runnable() {
 
 				public void run() {
 					// TODO Auto-generated method stub

@@ -7,7 +7,8 @@ public class Preferences {
 	
 	public static final String PREFS_NAME = "MyPrefsFile";
 	public static final int BAIDU_PEDIA = 0;
-	public static final int WIKI_PEDIA = 0;
+	public static final int WIKI_PEDIA = 1;
+	public static final int HUDONG_PEDIA = 2;
 	
 	public static final String PEDIA_SEARCH_URL = "http://pediault.appspot.com/search";
 	

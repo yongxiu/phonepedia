@@ -2,6 +2,7 @@ package cn.edu.nju.software;
 
 
 import cn.edu.nju.software.R;
+import cn.edu.nju.software.utils.Service;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TabHost.OnTabChangeListener;
 
 public class TabWidget extends TabActivity {
 
@@ -31,7 +33,7 @@ public class TabWidget extends TabActivity {
 		// 第一个TAB
 		intent = new Intent(this, OneActivity.class);// 新建一个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab1")// 新建一个 Tab
-				.setIndicator("百度百科",
+				.setIndicator("互动百科",
 						res.getDrawable(R.drawable.tran_tab_selected))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
@@ -45,15 +47,34 @@ public class TabWidget extends TabActivity {
 		tabHost.addTab(spec);// 添加进tabHost
 		
 		// 第三个TAB
-		intent = new Intent(this, HistoryActivity.class);// 新建一个Intent用作Tab1显示的内容
+		intent = new Intent(this, ThreeActivity.class);// 第二个Intent用作Tab1显示的内容
 		spec = tabHost.newTabSpec("tab3")// 新建一个 Tab
+				.setIndicator("百度百科",
+						res.getDrawable(R.drawable.baidu))// 设置名称以及图标
+				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
+		tabHost.addTab(spec);// 添加进tabHost
+		
+		// 第四个TAB
+		intent = new Intent(this, HistoryActivity.class);// 新建一个Intent用作Tab1显示的内容
+		spec = tabHost.newTabSpec("tab4")// 新建一个 Tab
 				.setIndicator("搜索历史",
 						res.getDrawable(R.drawable.clock))// 设置名称以及图标
 				.setContent(intent);// 设置显示的intent，这里的参数也可以是R.id.xxx
 		tabHost.addTab(spec);// 添加进tabHost
 		tabHost.setBackgroundResource(R.drawable.back_blue);
 		tabHost.setCurrentTab(0);
-		
+
+		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+			public void onTabChanged(String arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.equals("tab4")) {
+					//spec.se
+					System.out.println("Selected the tab4");
+				}
+			}
+
+		});
 	}
 	
 	@Override
@@ -67,7 +88,10 @@ public class TabWidget extends TabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection  
         switch (item.getItemId())  
-        {  
+        {
+        case R.id.send:
+        	startActivity(Service.SendMsg(""));
+        	return true;
         case R.id.save:  
             System.out.println("save");
             return true;  

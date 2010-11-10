@@ -28,12 +28,16 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import android.widget.AdapterView.OnItemClickListener;  
 
 public class OneActivity extends Activity {
 
@@ -63,15 +67,36 @@ public class OneActivity extends Activity {
 	    myAutoCompleteTextView.setAdapter(adapter);
 	    
 	    //myAutoCompleteTextView.add
-	    //Thread thread = new Thread(new PopWdDownload());
-		//thread.start();
+	    listView.setOnItemClickListener(new HotWdListener()); 
+	    
+	    Thread thread = new Thread(new PopWdDownload());
+		thread.start();
 	}
 
+	class HotWdListener implements OnItemClickListener {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			DBAdapter dbHelper = new DBAdapter(OneActivity.this);
+			dbHelper.open();
+			dbHelper.insertPedia(((TextView) arg1).getText().toString(), new Date());
+			
+			Intent intent = new Intent();
+			intent.putExtra("search", ((TextView) arg1).getText());
+			intent.putExtra("type", Preferences.HUDONG_PEDIA);
+			intent.setClass(OneActivity.this, BaseActivity.class);
+			OneActivity.this.startActivity(intent);
+		} 
+	}
 	
 	class SearchListener implements OnClickListener {
 
 		public void onClick(View v) {
 			
+			if(myAutoCompleteTextView.getText().toString().equals("")) {
+				Toast.makeText(OneActivity.this, "请输入要搜索的词汇！",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
 			Intent intent = new Intent();
 			System.out.println(myAutoCompleteTextView.getText().toString());
 			DBAdapter dbHelper = new DBAdapter(OneActivity.this);
@@ -124,6 +149,8 @@ public class OneActivity extends Activity {
 	class PopWdDownload implements Runnable{
 
 		public void run() {
+			
+			//popWdList.add("asdfj");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser;
 			
@@ -134,15 +161,15 @@ public class OneActivity extends Activity {
 			InputStream is = null;
 
 
-			/* 取得联机 */
+			//取得联机 
 			try {
 				pediaUrl = new URL(uri);
-				/* 开启联机 */
+				//开启联机 
 				conn = (HttpURLConnection) pediaUrl.openConnection();
 				int code = conn.getResponseCode();
-				/* 联机OK时 */
+				//联机OK时 
 				if (code == HttpURLConnection.HTTP_OK) {
-					/* 取得并传的InputStream */
+					//取得并传的InputStream 
 					is = conn.getInputStream();
 				}
 				
@@ -168,7 +195,15 @@ public class OneActivity extends Activity {
 				}
 			}
 			
-			((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+			//OneActivity.
+			OneActivity.this.runOnUiThread(new Runnable() {
+
+				public void run() {
+					// TODO Auto-generated method stub
+					((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+				}
+				
+			});
 		}
 		
 	}

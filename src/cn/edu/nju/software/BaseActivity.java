@@ -65,6 +65,14 @@ public class BaseActivity extends TabActivity {
 	}
 	
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		getTabHost().setCurrentTab(1);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();  
         inflater.inflate(R.menu.menu, menu);  
