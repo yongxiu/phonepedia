@@ -12,6 +12,7 @@
 		</activity>
 		<activity android:name=".OneActivity"></activity>
 		<activity android:name=".TwoActivity"></activity>
+		<activity android:name=".ThreeActivity"></activity>
 		<activity android:name=".PediaActivity"></activity>
 		<activity android:name=".DirectoryActivity">
 		

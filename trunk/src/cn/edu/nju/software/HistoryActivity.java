@@ -35,7 +35,7 @@ public class HistoryActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		data = getData();
-		((ArrayAdapter) this.getListAdapter()).notifyDataSetChanged();
+		((BaseAdapter) this.getListAdapter()).notifyDataSetChanged();
 		super.onResume();
 	}
 
